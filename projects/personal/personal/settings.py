@@ -38,13 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
+    'allauth.account',
+    'allauth.socialaccount',
     'rest_auth',
     'rest_auth.registration',
 
@@ -146,6 +147,10 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# custom absract user model
+AUTH_USER_MODEL = 'users.User'
 
 
 # change default date time format
