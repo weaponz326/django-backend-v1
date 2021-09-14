@@ -50,13 +50,13 @@ INSTALLED_APPS = [
     'rest_auth.registration',
 
     'users',
-    'modules.portal',
-    'modules.settings',
-    'modules.calendar',
-    'modules.budget',
-    'modules.notes',
-    'modules.accounts',
-    'modules.tasks',
+    'modules.module_portal',
+    'modules.module_settings',
+    'modules.module_calendar',
+    'modules.module_budget',
+    'modules.module_notes',
+    'modules.module_accounts',
+    'modules.module_tasks',
 ]
 
 MIDDLEWARE = [

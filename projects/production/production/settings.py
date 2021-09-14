@@ -43,19 +43,19 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'accounts',
-    # 'modules.admin',      # TODO: app label not unique
-    'modules.portal',
-    'modules.stock',
-    'modules.equipment',
-    'modules.purchasing',
-    'modules.orders',
-    'modules.manufacturing',
-    'modules.contractors',
-    'modules.projects',
-    'modules.workers',
-    'modules.tasks',
-    'modules.roster',
-    'modules.materials',
+    'modules.module_admin',
+    'modules.module_portal',
+    'modules.module_stock',
+    'modules.module_equipment',
+    'modules.module_purchasing',
+    'modules.module_orders',
+    'modules.module_manufacturing',
+    'modules.module_contractors',
+    'modules.module_projects',
+    'modules.module_workers',
+    'modules.module_tasks',
+    'modules.module_roster',
+    'modules.module_materials',
 ]
 
 MIDDLEWARE = [
