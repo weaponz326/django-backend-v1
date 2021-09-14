@@ -3,19 +3,19 @@ from django.db import models
 from django.db.models.query import QuerySet
 
 
-class BaseUtilityManager(models.Manager):
+class CustomBaseManager(models.Manager):
     def __init__(self, *args, **kwargs):
         self.alive_only = kwargs.pop('alive_only', True)
-        super(BaseUtilityManager, self).__init__(*args, *kwargs)
+        super(CustomBaseManager, self).__init__(*args, *kwargs)
 
         def get_queryset(self):
             if self.alive_only:
-                return BaseUtilityManager(self.model).filter(deleted_at=None)
-            return BaseUtilityQuerySet(self.model)
+                return CustomBaseManager(self.model).filter(deleted_at=None)
+            return CustomBaseQuerySet(self.model)
 
-class BaseUtilityQuerySet(QuerySet):
+class CustomBaseQuerySet(QuerySet):
     def delete(self):
-        return super(BaseUtilityQuerySet, self).update(deleted_at=timezone.now())
+        return super(CustomBaseQuerySet, self).update(deleted_at=timezone.now())
     
     def alive(self):
         return self.filter(deleted_at=None)

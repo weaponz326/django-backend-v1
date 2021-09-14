@@ -3,20 +3,20 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
 
-from .managers import BaseUtilityManager
+from .managers import CustomBaseManager
 
 
 # Create your models here.
 
-class BaseUtilityModel(models.Model):
+class CustomBaseModel(models.Model):
     pkid = models.BigAutoField(primary_key=True, editable=False)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
 
-    objects = BaseUtilityManager()
-    all_objects = BaseUtilityManager(alive_only=False)
+    objects = CustomBaseManager()
+    all_objects = CustomBaseManager(alive_only=False)
 
     class Meta:
         abstract = True
@@ -29,7 +29,7 @@ class BaseUtilityModel(models.Model):
         self.deleted_at = None
         self.save()
 
-class Profile(BaseUtilityModel):
+class Profile(CustomBaseModel):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     about = models.TextField()
