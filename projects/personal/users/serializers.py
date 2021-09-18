@@ -10,7 +10,15 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'location', 'about', 'photo']
+        fields = [
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'location',
+            'about',
+            'photo'
+        ]
 
 class CustomRegisterSerializer(RegisterSerializer):
     location = serializers.CharField(required=True, max_length=255)
