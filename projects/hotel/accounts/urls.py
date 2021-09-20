@@ -3,6 +3,13 @@ from . import views
 
 
 urlpatterns = [
-    path('profile/', views.ProfileView.as_view()),
-    path('profile/<int:pk>', views.ProfileDetailView.as_view()),
+    path('account/', views.AccountView.as_view()),
+    path('account/<id>', views.AccountDetailView.as_view()),
+
+    path('search/', views.SearchListView.as_view()),
+    path('search/<id>', views.SearchDetailView.as_view()),
+
+    # path('has-account/', views.HasAccountView.as_view()),
+    path('active-account/', views.ActiveAccountView.as_view()),
+    # path('user-accounts/', views.UserAccountsView.as_view()),
 ]

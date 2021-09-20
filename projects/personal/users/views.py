@@ -22,6 +22,6 @@ class SearchDetailView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, id, format=None):
-        rink = User.objects.get(id=id)
-        serializer = UserSerializer(rink)
+        user = User.objects.get(id=id)
+        serializer = UserSerializer(user)
         return Response(serializer.data)

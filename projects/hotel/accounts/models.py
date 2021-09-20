@@ -29,11 +29,11 @@ class CustomBaseModel(models.Model):
         self.deleted_at = None
         self.save()
 
-class Profile(CustomBaseModel):
+class Account(CustomBaseModel):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     about = models.TextField()
     logo = models.FileField(null=True, blank=True, upload_to='account_profile')
 
     def __str__(self):
-        return str(self.name)
+        return str(self.id)

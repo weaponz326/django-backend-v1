@@ -5,6 +5,8 @@ from users.serializers import UserSerializer
 
 
 class RinkSerializer(serializers.ModelSerializer):
+    sender = None
+    recipient = None
 
     class Meta:
         model = Rink

@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import Profile
+from .models import Account
 
 
 # Register your models here.
 
-class ProfileAdmin(admin.ModelAdmin):
+class AccountAdmin(admin.ModelAdmin):
     list_display = ('pkid', 'id', 'created_at', 'name', 'location')
 
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Account, AccountAdmin)
