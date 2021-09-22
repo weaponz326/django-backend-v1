@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'modules.module_admin',
     'modules.module_portal',
+    'modules.module_settings',
     'modules.module_patients',
     'modules.module_appointments',
     'modules.module_staff',

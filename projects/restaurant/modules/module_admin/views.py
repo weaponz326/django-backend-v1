@@ -134,8 +134,8 @@ def save_user(sender, instance, created, **kwargs):
         User.objects.create(
             account=Account.objects.get(id=instance.id),
             is_creator=True,
-            personal_id=s['creator_id'],
-            personal_name=s['creator_name'],
+            # personal_id=s['creator_id'],
+            # personal_name=s['creator_name'],
             user_level="Admin",
         )
 

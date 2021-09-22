@@ -20,4 +20,18 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('accounts/', include('accounts.urls')),
+    path('module-admin/', include('modules.module_admin.urls')),
+    path('module-portal/', include('modules.module_portal.urls')),
+    path('module-settings/', include('modules.module_settings.urls')),
+    # path('module-accounts/', include('modules.module_accounts.urls')),
+    # path('module-members/', include('modules.module_members.urls')),
+    # path('module-committees/', include('modules.module_committees.urls')),
+    # path('module-dues/', include('modules.module_dues.urls')),
+    # path('module-executives/', include('modules.module_executives.urls')),
+    # path('module-action-plan/', include('modules.module_action_plan.urls')),
+    # path('module-budget/', include('modules.module_budget.urls')),
+    # path('module-attendance/', include('modules.module_attendance.urls')),
+    # path('module-meetings/', include('modules.module_meetings.urls')),
+    # path('module-groups/', include('modules.module_groups.urls')),
+    # path('module-year/', include('modules.module_year.urls')),
 ]

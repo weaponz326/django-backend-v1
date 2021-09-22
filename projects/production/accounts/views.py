@@ -9,8 +9,8 @@ from rest_framework.views import APIView
 
 from .models import Account
 from .serializers import AccountSerializer
-# from modules.module_admin.serializers import UserAccountsSerializer
-# from modules.module_admin.models import User
+from modules.module_admin.serializers import UserAccountsSerializer
+from modules.module_admin.models import User
 
 
 # Create your views here.
@@ -71,14 +71,14 @@ class SearchDetailView(APIView):
 
 # ----------------------------------------------------------------------------------------------
 
-# # checks if user has a production acount
-# class HasAccountView(APIView):
-#     def post(self, request, *args, **kwargs):
-#         user = User.objects.filter(personal_id=request.data.get('personal_id'))
-#         if user.exists():
-#             return Response({'has_account': True})
-#         else:
-#             return Response({'has_account': False})
+# checks if user has a production acount
+class HasAccountView(APIView):
+    def post(self, request, *args, **kwargs):
+        user = User.objects.filter(personal_id=request.data.get('personal_id'))
+        if user.exists():
+            return Response({'has_account': True})
+        else:
+            return Response({'has_account': False})
 
 # store user selected active account in session
 class ActiveAccountView(APIView):
@@ -97,13 +97,13 @@ class ActiveAccountView(APIView):
             'production_id': request.session['production_id']
         })
 
-# # get all production suites of a personal id
-# class UserAccountsView(generics.ListAPIView):
-#     serializer_class = UserAccountsSerializer
+# get all production suites of a personal id
+class UserAccountsView(generics.ListAPIView):
+    serializer_class = UserAccountsSerializer
 
-#     def get_queryset(self):
-#         queryset = User.objects.all()
-#         personal_id = self.request.query_params.get('personal_id', None)
-#         if personal_id is not None:
-#             queryset = queryset.filter(personal_id=personal_id)
-#         return queryset
+    def get_queryset(self):
+        queryset = User.objects.all()
+        personal_id = self.request.query_params.get('personal_id', None)
+        if personal_id is not None:
+            queryset = queryset.filter(personal_id=personal_id)
+        return queryset

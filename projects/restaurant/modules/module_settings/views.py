@@ -52,4 +52,4 @@ class ExtendedProfileDetailView(APIView):
 @receiver(post_save, sender=Account)
 def save_extended_profile(sender, instance, created, **kwargs):
     if created:
-        ExtendedProfile.objects.create(id=instance.id)
+        ExtendedProfile.objects.create(id=Account.objects.get(id=instance.id))

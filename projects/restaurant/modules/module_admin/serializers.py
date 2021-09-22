@@ -59,6 +59,7 @@ class InvitationSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'updated_at',
+            'account',
             'invitee_id',
             'invitee_name',
             'invitation_status',

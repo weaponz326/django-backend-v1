@@ -97,13 +97,13 @@ class ActiveAccountView(APIView):
             'restaurant_id': request.session['restaurant_id']
         })
 
-# # get all restaurant suites of a personal id
-# class UserAccountsView(generics.ListAPIView):
-#     serializer_class = UserAccountsSerializer
+# get all restaurant suites of a personal id
+class UserAccountsView(generics.ListAPIView):
+    serializer_class = UserAccountsSerializer
 
-#     def get_queryset(self):
-#         queryset = User.objects.all()
-#         personal_id = self.request.query_params.get('personal_id', None)
-#         if personal_id is not None:
-#             queryset = queryset.filter(personal_id=personal_id)
-#         return queryset
+    def get_queryset(self):
+        queryset = User.objects.all()
+        personal_id = self.request.query_params.get('personal_id', None)
+        if personal_id is not None:
+            queryset = queryset.filter(personal_id=personal_id)
+        return queryset
