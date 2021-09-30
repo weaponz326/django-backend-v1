@@ -23,11 +23,11 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     path('users/', include('users.urls')),
-    # path('module-calendar/', include('modules.module_calendar.urls')),
-    # path('module-notes/', include('modules.module_notes.urls')),
-    # path('module-accounts/', include('modules.module_accounts.urls')),
-    # path('module-budget/', include('modules.module_budget.urls')),
-    # path('module-tasks/', include('modules.module_tasks.urls')),
+    path('module-calendar/', include('modules.module_calendar.urls')),
+    path('module-notes/', include('modules.module_notes.urls')),
+    path('module-accounts/', include('modules.module_accounts.urls')),
+    path('module-budget/', include('modules.module_budget.urls')),
+    path('module-tasks/', include('modules.module_tasks.urls')),
     path('module-portal/', include('modules.module_portal.urls')),
     path('module-settings/', include('modules.module_settings.urls')),
 ]
