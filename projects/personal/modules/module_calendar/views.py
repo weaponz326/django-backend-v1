@@ -4,42 +4,79 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics, status
 
-from .models import Appointment
-from .serializers import AppointmentSerializer
+from .models import Calendar, Schedule
+from .serializers import CalendarSerializer, ScheduleSerializer
 
 
 # Create your views here.
 
-class AppointmentView(APIView):
+class CalendarView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
-        appointment = Appointment.objects.filter(user=user)
-        serializer = AppointmentSerializer(appointment, many=True)
+        calendar = Calendar.objects.filter(user=user)
+        serializer = CalendarSerializer(calendar, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = AppointmentSerializer(data=request.data)
+        serializer = CalendarSerializer(data=request.data)
         if serializer.is_valid():
             serializer.id = request.data.get(id)
             serializer.save()
             return Response({ 'message': 'OK', 'data': serializer.data })
         return Response(serializer.errors)
 
-class AppointmentDetailView(APIView):
+class CalendarDetailView(APIView):
     def get(self, request, id, format=None):
-        access = Appointment.objects.get(id=id)
-        serializer = AppointmentSerializer(access)
+        access = Calendar.objects.get(id=id)
+        serializer = CalendarSerializer(access)
         return Response(serializer.data)
 
     def put(self, request, id, format=None):
-        access = Appointment.objects.get(id=id)
-        serializer = AppointmentSerializer(access, data=request.data)
+        access = Calendar.objects.get(id=id)
+        serializer = CalendarSerializer(access, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({ 'message': 'OK', 'data': serializer.data })
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
-        access = Appointment.objects.get(id=id)
+        access = Calendar.objects.get(id=id)
+        access.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# -------------------------------------------------------------------------------------
+# schedule
+
+class ScheduleView(APIView):
+    def get(self, request, format=None):
+        calendar = self.request.query_params.get('calendar', None)
+        schedule = Schedule.objects.filter(calendar=calendar)
+        serializer = ScheduleSerializer(schedule, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = ScheduleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.id = request.data.get(id)
+            serializer.save()
+            return Response({ 'message': 'OK', 'data': serializer.data })
+        return Response(serializer.errors)
+
+class ScheduleDetailView(APIView):
+    def get(self, request, id, format=None):
+        access = Schedule.objects.get(id=id)
+        serializer = ScheduleSerializer(access)
+        return Response(serializer.data)
+
+    def put(self, request, id, format=None):
+        access = Schedule.objects.get(id=id)
+        serializer = ScheduleSerializer(access, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({ 'message': 'OK', 'data': serializer.data })
+        return Response(serializer.errors)
+
+    def delete(self, request, id, format=None):
+        access = Schedule.objects.get(id=id)
         access.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

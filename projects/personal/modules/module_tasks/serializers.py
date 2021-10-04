@@ -1,15 +1,26 @@
 from rest_framework import serializers
-from .models import Task
+from .models import TaskGroup, TaskItem
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class TaskGroupSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
+        model = TaskGroup
         fields = [
             'id',
             'updated_at',
             'user',
-            'task_name',
+            'task_group',
+            'created_at',
+        ]
+
+class TaskItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskItem
+        fields = [
+            'id',
+            'updated_at',
+            'task_group',
+            'task_item',
             'description',
             'task_time',
             'status',

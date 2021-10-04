@@ -4,41 +4,77 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from .models import Task
-from .serializers import TaskSerializer
+from .models import TaskGroup, TaskItem
+from .serializers import TaskGroupSerializer, TaskItemSerializer
 
 
 # Create your views here.
 
-class TaskView(APIView):
+class TaskGroupView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
-        task = Task.objects.filter(user=user)
-        serializer = TaskSerializer(task, many=True)        
+        task_group = TaskGroup.objects.filter(user=user)
+        serializer = TaskGroupSerializer(task_group, many=True)        
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = TaskSerializer(data=request.data)
+        serializer = TaskGroupSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
 
-class TaskDetailView(APIView):
+class TaskGroupDetailView(APIView):
     def get(self, request, id, format=None):
-        task = Task.objects.get(id=id)
-        serializer = TaskSerializer(task)
+        task_group = TaskGroup.objects.get(id=id)
+        serializer = TaskGroupSerializer(task_group)
         return Response(serializer.data)
 
     def put(self, request, id, format=None):
-        task = Task.objects.get(id=id)
-        serializer = TaskSerializer(task, data=request.data)
+        task_group = TaskGroup.objects.get(id=id)
+        serializer = TaskGroupSerializer(task_group, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
-        task = Task.objects.get(id=id)
-        task.delete()
+        task_group = TaskGroup.objects.get(id=id)
+        task_group.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# ------------------------------------------------------------------------------------
+# task item
+
+class TaskItemView(APIView):
+    def get(self, request, format=None):
+        task_group = self.request.query_params.get('task_group', None)
+        task_item = TaskItem.objects.filter(task_group=task_group)
+        serializer = TaskItemSerializer(task_item, many=True)        
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TaskItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+class TaskItemDetailView(APIView):
+    def get(self, request, id, format=None):
+        task_item = TaskItem.objects.get(id=id)
+        serializer = TaskItemSerializer(task_item)
+        return Response(serializer.data)
+
+    def put(self, request, id, format=None):
+        task_item = TaskItem.objects.get(id=id)
+        serializer = TaskItemSerializer(task_item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def delete(self, request, id, format=None):
+        task_item = TaskItem.objects.get(id=id)
+        task_item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -3,6 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('task/', views.TaskView.as_view()),
-    path('task/<id>', views.TaskDetailView.as_view()),
+    path('task-item/', views.TaskItemView.as_view()),
+    path('task-item/<id>', views.TaskItemDetailView.as_view()),    
 ]
