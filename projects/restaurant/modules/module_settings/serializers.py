@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ExtendedProfile
+from .models import ExtendedProfile, Subscription
 
 
 class ExtendedProfileSerializer(serializers.ModelSerializer):
@@ -16,4 +16,16 @@ class ExtendedProfileSerializer(serializers.ModelSerializer):
             'email',
             'phone',
             'address',
+        ]
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Subscription
+        fields = [
+            'id',
+            'updated_at',
+            'subscription_type',
+            'billing_frequency',
+            'number_users',
         ]

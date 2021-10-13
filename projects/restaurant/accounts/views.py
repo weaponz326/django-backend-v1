@@ -3,7 +3,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
 
 from rest_framework.response import Response
-from rest_framework import generics, status
+from rest_framework import generics, request, status
 from rest_framework import filters
 from rest_framework.views import APIView
 
@@ -62,11 +62,14 @@ class SearchListView(generics.ListAPIView):
     serializer_class = AccountSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name']
+    # TODO:
+    # account = request.query_params.get('account', None)
+    # exclude_field = [id=account]
 
 class SearchDetailView(APIView):
     def get(self, request, id, format=None):
-        account = Account.objects.get(id=id)
-        serializer = AccountSerializer(account)
+        search = Account.objects.get(id=id)
+        serializer = AccountSerializer(search)
         return Response(serializer.data)
 
 # ----------------------------------------------------------------------------------------------

@@ -5,4 +5,6 @@ from . import views
 urlpatterns = [
     path('extended-profile/', views.ExtendedProfileView.as_view()),
     path('extended-profile/<id>', views.ExtendedProfileDetailView.as_view()),
+    path('subscription/', views.SubscriptionView.as_view()),
+    path('subscription/<id>', views.SubscriptionDetailView.as_view()),
 ]

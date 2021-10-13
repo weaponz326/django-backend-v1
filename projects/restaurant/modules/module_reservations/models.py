@@ -1,12 +1,14 @@
 from django.db import models
 
 from accounts.models import CustomBaseModel, Account
+from modules.module_customers.models import Customer
 
 
 # Create your models here.
 
 class Reservation(CustomBaseModel):
     account = models.ForeignKey(Account, to_field='id', on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, to_field='id', null=True, blank=True, on_delete=models.CASCADE)
     reservation_code = models.CharField(max_length=50, blank=True)
     reservation_date = models.DateTimeField(null=True, blank=True)
     customer_name = models.CharField(max_length=100, blank=True)

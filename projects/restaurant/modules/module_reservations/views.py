@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import Reservation
-from .serializers import ReservationSerializer
+from .serializers import ReservationSerializer, ReservationDepthSerializer
 
 
 # Create your views here.
@@ -14,7 +14,7 @@ class ReservationView(APIView):
     def get(self, request, format=None):
         account = self.request.query_params.get('account', None)
         reservation = Reservation.objects.filter(account=account)
-        serializer = ReservationSerializer(reservation, many=True)
+        serializer = ReservationDepthSerializer(reservation, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -27,7 +27,7 @@ class ReservationView(APIView):
 class ReservationDetailView(APIView):
     def get(self, request, id, format=None):
         reservation = Reservation.objects.get(id=id)
-        serializer = ReservationSerializer(reservation)
+        serializer = ReservationDepthSerializer(reservation)
         return Response(serializer.data)
 
     def put(self, request, id, format=None):

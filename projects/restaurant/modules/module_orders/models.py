@@ -1,6 +1,7 @@
 from django.db import models
 
 from accounts.models import CustomBaseModel, Account
+from modules.module_customers.models import Customer
 from modules.module_menu.models import MenuItem
 
 
@@ -8,6 +9,7 @@ from modules.module_menu.models import MenuItem
 
 class Order(CustomBaseModel):
     account = models.ForeignKey(Account, to_field='id', on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, to_field='id', null=True, blank=True, on_delete=models.CASCADE)
     order_code = models.CharField(max_length=50, blank=True)
     order_date = models.DateTimeField(null=True, blank=True)
     customer_name = models.CharField(max_length=100, null=True, blank=True)

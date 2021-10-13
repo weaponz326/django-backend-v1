@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import Payment
-from .serializers import PaymentSerializer
+from .serializers import PaymentSerializer, PaymentDepthSerializer
 
 
 # Create your views here.
@@ -14,11 +14,11 @@ class PaymentView(APIView):
     def get(self, request, format=None):
         account = self.request.query_params.get('account', None)
         payment = Payment.objects.filter(account=account)
-        serializer = PaymentSerializer(payment, many=True)        
+        serializer = PaymentDepthSerializer(payment, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = PaymentSerializer(data=request.data, context={'request': request})
+        serializer = PaymentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -27,12 +27,12 @@ class PaymentView(APIView):
 class PaymentDetailView(APIView):
     def get(self, request, id, format=None):
         payment = Payment.objects.get(id=id)
-        serializer = PaymentSerializer(payment)
+        serializer = PaymentDepthSerializer(payment)
         return Response(serializer.data)
 
     def put(self, request, id, format=None):
         payment = Payment.objects.get(id=id)
-        serializer = PaymentSerializer(payment, data=request.data, context={'request': request})
+        serializer = PaymentSerializer(payment, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

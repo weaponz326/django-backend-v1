@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import Order, OrderItem
-from .serializers import OrderSerializer, OrderItemSerializer
+from .serializers import OrderSerializer, OrderDepthSerializer, OrderItemSerializer
 
 
 # Create your views here.
@@ -14,7 +14,7 @@ class OrderView(APIView):
     def get(self, request, format=None):
         account = self.request.query_params.get('account', None)
         order = Order.objects.filter(account=account)
-        serializer = OrderSerializer(order, many=True)
+        serializer = OrderDepthSerializer(order, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -27,7 +27,7 @@ class OrderView(APIView):
 class OrderDetailView(APIView):
     def get(self, request, id, format=None):
         order = Order.objects.get(id=id)
-        serializer = OrderSerializer(order)
+        serializer = OrderDepthSerializer(order)
         return Response(serializer.data)
 
     def put(self, request, id, format=None):
@@ -63,9 +63,13 @@ class OrderItemView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = OrderItemSerializer(data=request.data, context={'request': request})
+        serializer = OrderItemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+
+            # TODO:
+            # insert into deliveries if order_type == delivery
+
             return Response(serializer.data)
         return Response(serializer.errors)
 
@@ -77,7 +81,7 @@ class OrderItemDetailView(APIView):
 
     def put(self, request, id, format=None):
         item = OrderItem.objects.get(id=id)
-        serializer = OrderItemSerializer(item, data=request.data, context={'request': request})
+        serializer = OrderItemSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
