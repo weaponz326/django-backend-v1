@@ -22,7 +22,7 @@ class CalendarView(APIView):
         if serializer.is_valid():
             serializer.id = request.data.get(id)
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class CalendarDetailView(APIView):
@@ -36,7 +36,7 @@ class CalendarDetailView(APIView):
         serializer = CalendarSerializer(access, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
@@ -59,7 +59,7 @@ class ScheduleView(APIView):
         if serializer.is_valid():
             serializer.id = request.data.get(id)
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class ScheduleDetailView(APIView):
@@ -73,7 +73,7 @@ class ScheduleDetailView(APIView):
         serializer = ScheduleSerializer(access, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):

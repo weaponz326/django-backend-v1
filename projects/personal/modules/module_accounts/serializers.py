@@ -28,10 +28,16 @@ class TransactionSerializer(serializers.ModelSerializer):
             'transaction_type',
         ]
 
-    def __init__(self, *args, **kwargs):
-        super(TransactionSerializer, self).__init__(*args, **kwargs)
-        request = self.context.get('request')
-        if request and (request.method == 'POST' or request.method == 'PUT'):
-            self.Meta.depth = 0
-        else:
-            self.Meta.depth = 1
+class TransactionDepthSerializer(serializers.ModelSerializer):
+    account = AccountSerializer()
+    class Meta:
+        model = Transaction
+        fields = [
+            'id',
+            'updated_at',
+            'account',
+            'transaction_date',
+            'description',
+            'amount',
+            'transaction_type',
+        ]

@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import Account, Transaction
-from .serializers import AccountSerializer, TransactionSerializer
+from .serializers import AccountSerializer, TransactionDepthSerializer, TransactionSerializer
 
 
 # Create your views here.
@@ -22,7 +22,7 @@ class AccountView(APIView):
         serializer = AccountSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class AccountDetailView(APIView):
@@ -36,7 +36,7 @@ class AccountDetailView(APIView):
         serializer = AccountSerializer(account, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
@@ -58,7 +58,7 @@ class TransactionView(APIView):
         serializer = TransactionSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class TransactionDetailView(APIView):
@@ -72,7 +72,7 @@ class TransactionDetailView(APIView):
         serializer = TransactionSerializer(transaction, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
@@ -85,5 +85,5 @@ class AllTransactionsView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
         account = Transaction.objects.filter(account__user=user)
-        serializer = TransactionSerializer(account, many=True)
+        serializer = TransactionDepthSerializer(account, many=True)
         return Response(serializer.data)
