@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Count
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -80,3 +81,26 @@ class ScheduleDetailView(APIView):
         access = Schedule.objects.get(id=id)
         access.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
+
+class CountView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "Calendar":
+            count = Calendar.objects.filter(user=user).count()
+        elif model == "Schedule":
+            count = Schedule.objects.filter(calendar__user=user).count()
+
+        return Response(count)
+
+class ScheduleDayAnnotateView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        annotation = Schedule.objects.filter(calendar__user=user).annotate(schedule_count=Count('created_at'))
+        return Response(annotation)

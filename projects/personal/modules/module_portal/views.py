@@ -69,11 +69,19 @@ class RinkListView(generics.ListAPIView):
 # -----------------------------------------------------------------------------------------------------
 # dashboard
 
-class CountRinkDateListView(generics.ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = RinkSerializer
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
 
-    def get_queryset(self):
-        queryset = Rink.objects.all()
-        # counts = queryset.annotate(date=TruncDay('rink_date')).values("date").annotate(count=Count('id'))
-        # return counts
+class CountView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "Rink In":
+            count = Rink.objects.filter(recipient__id=user).count()
+        elif model == "Rink Out":
+            count = Rink.objects.filter(sender__id=user).count()
+
+        return Response(count)

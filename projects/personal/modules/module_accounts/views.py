@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.db.models import Count
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -87,3 +87,20 @@ class AllTransactionsView(APIView):
         account = Transaction.objects.filter(account__user=user)
         serializer = TransactionDepthSerializer(account, many=True)
         return Response(serializer.data)
+
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
+
+class CountView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "Account":
+            count = Account.objects.filter(user=user).count()
+        elif model == "Transaction":
+            count = Transaction.objects.filter(account__user=user).count()
+
+        return Response(count)

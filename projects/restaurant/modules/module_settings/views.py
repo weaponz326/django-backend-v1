@@ -25,7 +25,7 @@ class ExtendedProfileView(APIView):
         serializer = ExtendedProfileSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class ExtendedProfileDetailView(APIView):
@@ -39,7 +39,7 @@ class ExtendedProfileDetailView(APIView):
         serializer = ExtendedProfileSerializer(rink, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):

@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.db.models import Count
+from django.db.models.functions import TruncDay, TruncMonth
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,7 +9,7 @@ from rest_framework import generics, mixins
 from rest_framework.parsers import FileUploadParser
 
 from .models import Note, NoteFile
-from .serializers import NoteSerializer, NoteFileSerializer
+from .serializers import NoteSerializer, NoteFileSerializer, NoteAnnotateSerializer
 
 
 # Create your views here.
@@ -81,3 +83,32 @@ class NoteFileDetailView(APIView):
         file = NoteFile.objects.get(id=id)
         file.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
+
+class CountView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "Note":
+            count = Note.objects.filter(user=user).count()
+
+        return Response(count)
+
+class DateAnnotateView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        queryset = Note.objects.filter(user=user).annotate(note_count=Count('created_at'))
+        serializer = NoteAnnotateSerializer(queryset)
+
+        # Note.objects
+        #     .annotate(month=TruncMonth('created_at'))
+        #     .values('month')                      
+        #     .annotate(c=Count('id'))              
+        #     .values('month', 'c')   
+
+        return Response(serializer.data)

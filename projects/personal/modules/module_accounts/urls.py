@@ -8,4 +8,6 @@ urlpatterns = [
     path('transaction/', views.TransactionView.as_view()),
     path('transaction/<id>', views.TransactionDetailView.as_view()),
     path('all-transactions/', views.AllTransactionsView.as_view()),
+
+    path('count/', views.CountView.as_view()),
 ]
