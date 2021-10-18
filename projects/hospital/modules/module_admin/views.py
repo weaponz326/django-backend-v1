@@ -28,7 +28,7 @@ class UserView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class UserDetailView(APIView):
@@ -42,7 +42,7 @@ class UserDetailView(APIView):
         serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
@@ -65,7 +65,7 @@ class AccessView(APIView):
         if serializer.is_valid():
             serializer.id = request.data.get(id)
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class AccessDetailView(APIView):
@@ -79,7 +79,7 @@ class AccessDetailView(APIView):
         serializer = AccessSerializer(access, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
@@ -101,7 +101,7 @@ class InvitationView(APIView):
         if serializer.is_valid():
             serializer.id = request.data.get(id)
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class InvitationDetailView(APIView):
@@ -115,7 +115,7 @@ class InvitationDetailView(APIView):
         serializer = InvitationSerializer(access, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({ 'message': 'OK', 'data': serializer.data })
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def delete(self, request, id, format=None):
