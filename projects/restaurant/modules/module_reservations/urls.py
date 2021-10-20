@@ -5,4 +5,6 @@ from . import views
 urlpatterns = [
     path('reservation/', views.ReservationView.as_view()),
     path('reservation/<id>', views.ReservationDetailView.as_view()),
+
+    path('count/', views.CountView.as_view()),
 ]

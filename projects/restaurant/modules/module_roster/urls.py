@@ -15,4 +15,6 @@ urlpatterns = [
     path('refresh-sheet/', views.RefreshSheetView.as_view()),
     path('roster-day/', views.RosterDayView.as_view()),
     path('roster-sheet/', views.RosterSheetView.as_view()),
+
+    path('count/', views.CountView.as_view()),
 ]

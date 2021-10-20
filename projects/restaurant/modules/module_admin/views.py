@@ -123,6 +123,21 @@ class InvitationDetailView(APIView):
         access.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
+
+class CountView(APIView):
+    def get(self, request, format=None):
+        account = self.request.query_params.get('account', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "User":
+            count = User.objects.filter(account=account).count()
+
+        return Response(count)
+
 # ------------------------------------------------------------------------------------------
 # signals
 

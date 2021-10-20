@@ -8,4 +8,6 @@ urlpatterns = [
     path('order-total/<id>', views.OrderTotalView.as_view()),
     path('order-item/', views.OrderItemView.as_view()),
     path('order-item/<id>', views.OrderItemDetailView.as_view()),
+
+    path('count/', views.CountView.as_view()),
 ]

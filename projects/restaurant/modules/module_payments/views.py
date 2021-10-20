@@ -42,3 +42,18 @@ class PaymentDetailView(APIView):
         payment = Payment.objects.get(id=id)
         payment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
+
+class CountView(APIView):
+    def get(self, request, format=None):
+        account = self.request.query_params.get('account', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "Payment":
+            count = Payment.objects.filter(account=account).count()
+
+        return Response(count)

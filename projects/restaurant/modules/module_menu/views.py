@@ -78,3 +78,20 @@ class MenuItemDetailView(APIView):
         item = MenuItem.objects.get(id=id)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
+
+class CountView(APIView):
+    def get(self, request, format=None):
+        account = self.request.query_params.get('account', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "Menu Group":
+            count = MenuGroup.objects.filter(account=account).count()
+        elif model == "Menu Item":
+            count = MenuItem.objects.filter(menu_group__account=account).count()
+
+        return Response(count)

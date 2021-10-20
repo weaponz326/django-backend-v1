@@ -59,3 +59,20 @@ class RinkListView(generics.ListAPIView):
         if account is not None:
             queryset = queryset.filter(sender__id=account) | queryset.filter(recipient__id=account)
         return queryset
+
+# --------------------------------------------------------------------------------------------------------
+# dashboard
+# --------------------------------------------------------------------------------------------------------
+
+class CountView(APIView):
+    def get(self, request, format=None):
+        account = self.request.query_params.get('account', None)
+        model = self.request.query_params.get('model', None)
+        count = None
+
+        if model == "Rink In":
+            count = Rink.objects.filter(recipient__id=account).count()
+        elif model == "Rink Out":
+            count = Rink.objects.filter(sender__id=account).count()
+
+        return Response(count)
