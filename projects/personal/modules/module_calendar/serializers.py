@@ -33,3 +33,11 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'allDay',
             'backgroundColor',
         ]
+
+class ScheduleDaySerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = Schedule
+        fields = ('created_on', 'count')

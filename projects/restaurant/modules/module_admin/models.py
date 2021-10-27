@@ -1,6 +1,6 @@
 from django.db import models
 
-from accounts.models import CustomBaseModel,Account
+from accounts.models import CustomBaseModel, Account
 
 
 # Create your models here.

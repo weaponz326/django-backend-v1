@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import generics, status
 
 from .models import Calendar, Schedule
-from .serializers import CalendarSerializer, ScheduleSerializer
+from .serializers import CalendarSerializer, ScheduleSerializer, ScheduleDaySerializer
 
 
 # Create your views here.
@@ -99,8 +99,9 @@ class CountView(APIView):
 
         return Response(count)
 
-class ScheduleDayAnnotateView(APIView):
+class ScheduleDayView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
-        annotation = Schedule.objects.filter(calendar__user=user).annotate(schedule_count=Count('created_at'))
-        return Response(annotation)
+        annotation = Schedule.objects.filter(calendar__user=user).annotate(count=Count('id'))
+        serializer = ScheduleDaySerializer(annotation)
+        return Response(serializer.data)
