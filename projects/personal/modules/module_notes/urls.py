@@ -9,6 +9,5 @@ urlpatterns = [
     path('file/<id>', views.NoteFileDetailView.as_view()),
 
     path('count/', views.CountView.as_view()),
-    path('date-annotate/', views.DateAnnotateView.as_view()),
-
+    path('annotate/', views.AnnotateView.as_view()),
 ]

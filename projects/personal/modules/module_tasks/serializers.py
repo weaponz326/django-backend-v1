@@ -25,3 +25,27 @@ class TaskItemSerializer(serializers.ModelSerializer):
             'task_time',
             'status',
         ]
+
+class TaskGroupAnnotateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = TaskGroup
+        fields = [
+            'created_at',
+            'date',
+            'count'
+        ]
+
+class TaskItemAnnotateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = TaskItem
+        fields = [
+            'created_at',
+            'date',
+            'count'
+        ]

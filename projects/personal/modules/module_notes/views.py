@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Count
-from django.db.models.functions import TruncDay, TruncMonth
+from django.db.models.functions import TruncDate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -99,16 +99,12 @@ class CountView(APIView):
 
         return Response(count)
 
-class DateAnnotateView(APIView):
+class AnnotateView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
-        queryset = Note.objects.filter(user=user).annotate(note_count=Count('created_at'))
-        serializer = NoteAnnotateSerializer(queryset)
+        model = self.request.query_params.get('model', None)
 
-        # Note.objects
-        #     .annotate(month=TruncMonth('created_at'))
-        #     .values('month')                      
-        #     .annotate(c=Count('id'))              
-        #     .values('month', 'c')   
-
-        return Response(serializer.data)
+        if model == "Note":
+            annotate = Note.objects.filter(user=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = NoteAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)

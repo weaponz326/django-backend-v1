@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.db.models.functions import TruncDay
 from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,7 +8,7 @@ from rest_framework import generics, mixins, status, filters
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Rink
-from .serializers import RinkDepthSerializer, RinkSerializer
+from .serializers import RinkDepthSerializer, RinkSerializer, RinkAnnotateSerializer
 
 
 # Create your views here.
@@ -54,7 +54,7 @@ class RinkDetailView(APIView):
 # list all incoming and outgoing rinks of a user
 class RinkListView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = RinkSerializer
+    serializer_class = RinkDepthSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['rink_date']
     ordering = ['-rink_date']
@@ -82,3 +82,17 @@ class CountView(APIView):
             count = Rink.objects.filter(sender__id=user).count()
 
         return Response(count)
+
+class AnnotateView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+
+        if model == "Rink In":
+            annotate = Rink.objects.filter(recipient__id=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = RinkAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)
+        elif model == "Rink Out":
+            annotate = Rink.objects.filter(sender__id=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = RinkAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)

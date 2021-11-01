@@ -41,3 +41,15 @@ class TransactionDepthSerializer(serializers.ModelSerializer):
             'amount',
             'transaction_type',
         ]
+
+class TransactionAnnotateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = Transaction
+        fields = [
+            'created_at',
+            'date',
+            'count'
+        ]

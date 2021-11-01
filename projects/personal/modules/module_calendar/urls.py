@@ -8,5 +8,5 @@ urlpatterns = [
     path('schedule/<id>', views.ScheduleDetailView.as_view()),
 
     path('count/', views.CountView.as_view()),
-    path('schedule-day/', views.ScheduleDayView.as_view()),
+    path('annotate/', views.AnnotateView.as_view()),
 ]

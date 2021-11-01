@@ -34,3 +34,27 @@ class ExpenditureSerializer(serializers.ModelSerializer):
             'item',
             'amount',
         ]
+
+class IncomeAnnotateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = Income
+        fields = [
+            'created_at',
+            'date',
+            'count'
+        ]
+
+class ExpenditureAnnotateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = Expenditure
+        fields = [
+            'created_at',
+            'date',
+            'count'
+        ]

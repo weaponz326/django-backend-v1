@@ -25,14 +25,15 @@ class NoteFileSerializer(serializers.ModelSerializer):
             'note',
             'file',
         ]
-        
+
 class NoteAnnotateSerializer(serializers.ModelSerializer):
-    note_count = serializers.IntegerField(read_only=True)
+    date = serializers.DateField()
+    count = serializers.IntegerField()
 
     class Meta:
         model = Note
         fields = [
-            'id',
             'created_at',
-            'note_count',
+            'date',
+            'count'
         ]

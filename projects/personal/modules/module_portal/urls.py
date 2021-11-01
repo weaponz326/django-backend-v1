@@ -8,4 +8,5 @@ urlpatterns = [
     path('rink-list/', views.RinkListView.as_view()),
 
     path('count/', views.CountView.as_view()),
+    path('annotate/', views.AnnotateView.as_view()),
 ]

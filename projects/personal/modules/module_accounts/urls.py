@@ -10,4 +10,5 @@ urlpatterns = [
     path('all-transactions/', views.AllTransactionsView.as_view()),
 
     path('count/', views.CountView.as_view()),
+    path('annotate/', views.AnnotateView.as_view()),
 ]

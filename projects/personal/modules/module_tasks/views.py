@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import TaskGroup, TaskItem
-from .serializers import TaskGroupSerializer, TaskItemSerializer
+from .serializers import TaskGroupSerializer, TaskItemSerializer, TaskGroupAnnotateSerializer, TaskItemAnnotateSerializer
 
 
 # Create your views here.
@@ -96,3 +97,17 @@ class CountView(APIView):
             count = TaskItem.objects.filter(task_group__user=user).count()
 
         return Response(count)
+
+class AnnotateView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+
+        if model == "Task Group":
+            annotate = TaskGroup.objects.filter(user=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = TaskGroupAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)
+        elif model == "Task Item":
+            annotate = TaskItem.objects.filter(task_group__user=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = TaskItemAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)

@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import Account, Transaction
-from .serializers import AccountSerializer, TransactionDepthSerializer, TransactionSerializer
+from .serializers import AccountSerializer, TransactionDepthSerializer, TransactionSerializer, TransactionAnnotateSerializer
 
 
 # Create your views here.
@@ -104,3 +105,13 @@ class CountView(APIView):
             count = Transaction.objects.filter(account__user=user).count()
 
         return Response(count)
+
+class AnnotateView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+
+        if model == "Transaction":
+            annotate = Transaction.objects.filter(account__user=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = TransactionAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)

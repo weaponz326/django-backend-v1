@@ -34,10 +34,14 @@ class ScheduleSerializer(serializers.ModelSerializer):
             'backgroundColor',
         ]
 
-class ScheduleDaySerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField()
+class ScheduleAnnotateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
     count = serializers.IntegerField()
 
     class Meta:
         model = Schedule
-        fields = ('created_on', 'count')
+        fields = [
+            'created_at',
+            'date',
+            'count'
+        ]

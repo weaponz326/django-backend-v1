@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics, status
 
 from .models import Calendar, Schedule
-from .serializers import CalendarSerializer, ScheduleSerializer, ScheduleDaySerializer
+from .serializers import CalendarSerializer, ScheduleSerializer, ScheduleAnnotateSerializer
 
 
 # Create your views here.
@@ -99,9 +100,12 @@ class CountView(APIView):
 
         return Response(count)
 
-class ScheduleDayView(APIView):
+class AnnotateView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
-        annotation = Schedule.objects.filter(calendar__user=user).annotate(count=Count('id'))
-        serializer = ScheduleDaySerializer(annotation)
-        return Response(serializer.data)
+        model = self.request.query_params.get('model', None)
+
+        if model == "Schedule":
+            annotate = Schedule.objects.filter(calendar__user=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = ScheduleAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)

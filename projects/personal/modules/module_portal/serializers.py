@@ -37,3 +37,15 @@ class RinkDepthSerializer(serializers.ModelSerializer):
             'rink_source',
             'comment',
         ]
+
+class RinkAnnotateSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = Rink
+        fields = [
+            'created_at',
+            'date',
+            'count'
+        ]

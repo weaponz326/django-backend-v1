@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import Budget, Income, Expenditure
-from .serializers import BudgetSerializer, IncomeSerializer, ExpenditureSerializer
+from .serializers import BudgetSerializer, IncomeSerializer, ExpenditureSerializer, IncomeAnnotateSerializer, ExpenditureAnnotateSerializer
 
 
 # Create your views here.
@@ -15,7 +16,7 @@ class BudgetView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
         budget = Budget.objects.filter(user=user)
-        serializer = BudgetSerializer(budget, many=True)        
+        serializer = BudgetSerializer(budget, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -51,7 +52,7 @@ class IncomeView(APIView):
     def get(self, request, format=None):
         budget = self.request.query_params.get('budget', None)
         income = Income.objects.filter(budget=budget)
-        serializer = IncomeSerializer(income, many=True)        
+        serializer = IncomeSerializer(income, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -87,7 +88,7 @@ class ExpenditureView(APIView):
     def get(self, request, format=None):
         budget = self.request.query_params.get('budget', None)
         expenditure = Expenditure.objects.filter(budget=budget)
-        serializer = ExpenditureSerializer(expenditure, many=True)        
+        serializer = ExpenditureSerializer(expenditure, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -134,3 +135,17 @@ class CountView(APIView):
             count = Expenditure.objects.filter(budget__user=user).count()
 
         return Response(count)
+
+class AnnotateView(APIView):
+    def get(self, request, format=None):
+        user = self.request.query_params.get('user', None)
+        model = self.request.query_params.get('model', None)
+
+        if model == "Income":
+            annotate = Income.objects.filter(budget__user=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = IncomeAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)
+        elif model == "Expenditure":
+            annotate = Expenditure.objects.filter(budget__user=user).values(date=TruncDate('created_at')).annotate(count=Count('id')).order_by('date')
+            serializer = ExpenditureAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)

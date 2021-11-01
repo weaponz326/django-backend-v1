@@ -11,4 +11,5 @@ urlpatterns = [
     path('expenditure/<id>', views.ExpenditureDetailView.as_view()),
 
     path('count/', views.CountView.as_view()),
+    path('annotate/', views.AnnotateView.as_view()),
 ]
