@@ -28,4 +28,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
             'subscription_type',
             'billing_frequency',
             'number_users',
+            'first_name',
+            'last_name',
         ]

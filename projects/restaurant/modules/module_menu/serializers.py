@@ -35,3 +35,13 @@ class MenuItemSerializer(serializers.ModelSerializer):
             self.Meta.depth = 0
         else:
             self.Meta.depth = 1
+
+class ItemGroupAnnotateSerializer(serializers.ModelSerializer):
+    count = serializers.IntegerField()
+
+    class Meta:
+        model = MenuItem
+        fields = [
+            'menu_group',
+            'count'
+        ]

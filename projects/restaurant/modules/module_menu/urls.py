@@ -9,4 +9,5 @@ urlpatterns = [
     path('menu-item/<id>', views.MenuItemDetailView.as_view()),
 
     path('count/', views.CountView.as_view()),
+    path('annotate/', views.AnnotateView.as_view()),
 ]

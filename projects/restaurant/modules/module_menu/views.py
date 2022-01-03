@@ -1,11 +1,12 @@
 from django.shortcuts import render
+from django.db.models import Count
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
 from .models import MenuGroup, MenuItem
-from .serializers import MenuGroupSerializer, MenuItemSerializer
+from .serializers import ItemGroupAnnotateSerializer, MenuGroupSerializer, MenuItemSerializer
 
 
 # Create your views here.
@@ -95,3 +96,13 @@ class CountView(APIView):
             count = MenuItem.objects.filter(menu_group__account=account).count()
 
         return Response(count)
+
+class AnnotateView(APIView):
+    def get(self, request, format=None):
+        account = self.request.query_params.get('account', None)
+        model = self.request.query_params.get('model', None)
+
+        if model == "MenuItem":
+            annotate = MenuItem.objects.filter(menu_group__account=account).values("menu_group").annotate(count=Count('id'))
+            serializer = ItemGroupAnnotateSerializer(annotate, many=True)
+            return Response(serializer.data)

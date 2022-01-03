@@ -29,6 +29,10 @@ class Subscription(CustomBaseModel):
     subscription_type = models.CharField(max_length=30, null=True, blank=True)
     billing_frequency = models.CharField(max_length=30, null=True, blank=True)
     number_users = models.IntegerField(null=True, blank=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+
 
     def __str__(self):
         return str(self.id)
