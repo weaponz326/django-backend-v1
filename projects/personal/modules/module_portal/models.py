@@ -12,7 +12,7 @@ class Rink(CustomBaseModel):
     rink_date = models.DateTimeField(auto_now_add=True)
     rink_type = models.CharField(max_length=50, null=True)
     rink_source = models.CharField(max_length=100, null=True)
-    comment = models.TextField(null="True")
+    comment = models.TextField(null="True", blank=True)
 
     def __str__(self):
         return str(self.id)

@@ -17,7 +17,7 @@ class Account(CustomBaseModel):
 class Transaction(CustomBaseModel):
     account = models.ForeignKey(Account, to_field='id', on_delete=models.CASCADE)
     transaction_date = models.DateTimeField(null=True)
-    description = models.CharField(max_length=100, null=True)
+    description = models.CharField(max_length=100, null=True, blank=True)
     transaction_type = models.CharField(max_length=50)
     amount = models.DecimalField(max_digits=11, decimal_places=2, null=True)
 

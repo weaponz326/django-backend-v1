@@ -2,24 +2,30 @@ from django.shortcuts import render
 from django.db.models import Count
 from django.db.models.functions import TruncDate
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework import generics, mixins
-from rest_framework.parsers import FileUploadParser
+from rest_framework.filters import OrderingFilter
 
-from .models import Note, NoteFile
-from .serializers import NoteSerializer, NoteFileSerializer, NoteAnnotateSerializer
+from .models import Note
+from .serializers import NoteSerializer, NoteAnnotateSerializer
+from users.paginations import TablePagination
 
 
 # Create your views here.
 
-class NoteView(APIView):
+class NoteView(APIView, TablePagination):
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['subject', 'created_at', 'updated_at']
+    ordering = ['-pkid']
+
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
         note = Note.objects.filter(user=user)
-        serializer = NoteSerializer(note, many=True)
-        return Response(serializer.data)
+        results = self.paginate_queryset(note, request, view=self)
+        serializer = NoteSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request, format=None):
         serializer = NoteSerializer(data=request.data)
@@ -45,43 +51,6 @@ class NoteDetailView(APIView):
     def delete(self, request, id, format=None):
         note = Note.objects.get(id=id)
         note.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-# file attachments
-
-class NoteFileView(APIView):
-    parser_class = (FileUploadParser,)
-
-    def get(self, request, format=None):
-        note = self.request.query_params.get('note', None)
-        file = NoteFile.objects.filter(note=note)
-        serializer = NoteFileSerializer(file, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, *args, **kwargs):
-        serializer = NoteFileSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
-
-class NoteFileDetailView(APIView):
-    def get(self, request, id, format=None):
-        file = NoteFile.objects.get(id=id)
-        serializer = NoteFileSerializer(file)
-        return Response(serializer.data)
-
-    def put(self, request, id, format=None):
-        file = NoteFile.objects.get(id=id)
-        serializer = NoteFileSerializer(file, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
-
-    def delete(self, request, id, format=None):
-        file = NoteFile.objects.get(id=id)
-        file.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # --------------------------------------------------------------------------------------------------------

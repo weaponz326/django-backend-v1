@@ -2,22 +2,28 @@ from django.shortcuts import render
 from django.db.models import Count
 from django.db.models.functions import TruncDate
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics, status
+from rest_framework.filters import OrderingFilter
 
 from .models import Calendar, Schedule
 from .serializers import CalendarSerializer, ScheduleSerializer, ScheduleAnnotateSerializer
-
+from users.paginations import TablePagination
 
 # Create your views here.
+class CalendarView(APIView, TablePagination):
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['calendar_name', 'created_at']
+    ordering = ['-pkid']
 
-class CalendarView(APIView):
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
         calendar = Calendar.objects.filter(user=user)
-        serializer = CalendarSerializer(calendar, many=True)
-        return Response(serializer.data)
+        results = self.paginate_queryset(calendar, request, view=self)
+        serializer = CalendarSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request, format=None):
         serializer = CalendarSerializer(data=request.data)
@@ -49,12 +55,17 @@ class CalendarDetailView(APIView):
 # -------------------------------------------------------------------------------------
 # schedule
 
-class ScheduleView(APIView):
+class ScheduleView(APIView, TablePagination):
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['schedule_name', 'start_date', 'end_date', 'status']
+    ordering = ['-pkid']
+
     def get(self, request, format=None):
         calendar = self.request.query_params.get('calendar', None)
         schedule = Schedule.objects.filter(calendar=calendar)
-        serializer = ScheduleSerializer(schedule, many=True)
-        return Response(serializer.data)
+        results = self.paginate_queryset(schedule, request, view=self)
+        serializer = ScheduleSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request, format=None):
         serializer = ScheduleSerializer(data=request.data)

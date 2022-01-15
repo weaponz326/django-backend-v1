@@ -2,22 +2,30 @@ from django.shortcuts import render
 from django.db.models import Count
 from django.db.models.functions import TruncDate
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.filters import OrderingFilter
 
 from .models import Budget, Income, Expenditure
 from .serializers import BudgetSerializer, IncomeSerializer, ExpenditureSerializer, IncomeAnnotateSerializer, ExpenditureAnnotateSerializer
+from users.paginations import TablePagination
 
 
 # Create your views here.
 
-class BudgetView(APIView):
+class BudgetView(APIView, TablePagination):
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['budget_name', 'budget_type']
+    ordering = ['-pkid']
+
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
         budget = Budget.objects.filter(user=user)
-        serializer = BudgetSerializer(budget, many=True)
-        return Response(serializer.data)
+        results = self.paginate_queryset(budget, request, view=self)
+        serializer = BudgetSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request, format=None):
         serializer = BudgetSerializer(data=request.data)

@@ -20,10 +20,11 @@ class IncomeSerializer(serializers.ModelSerializer):
             'id',
             'updated_at',
             'budget',
-            'item',
+            'item_number',
+            'item_description',
             'amount',
         ]
-        
+
 class ExpenditureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expenditure
@@ -31,7 +32,8 @@ class ExpenditureSerializer(serializers.ModelSerializer):
             'id',
             'updated_at',
             'budget',
-            'item',
+            'item_number',
+            'item_description',
             'amount',
         ]
 

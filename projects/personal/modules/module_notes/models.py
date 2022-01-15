@@ -11,10 +11,3 @@ class Note(CustomBaseModel):
 
     def __str__(self):
         return str(self.id)
-
-class NoteFile(CustomBaseModel):
-    note = models.ForeignKey(Note, to_field='id', on_delete=models.CASCADE)
-    file = models.FileField(blank=False, null=False, upload_to='notes')
-
-    def __str__(self):
-        return str(self.id)

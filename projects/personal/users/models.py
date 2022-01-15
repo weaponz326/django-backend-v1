@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
@@ -16,7 +16,7 @@ class CustomBaseModel(models.Model):
     deleted_at = models.DateTimeField(blank=True, null=True)
 
     objects = CustomBaseManager()
-    all_objects = CustomBaseManager(alive_only=False)
+    # all_objects = CustomBaseManager(alive_only=False)
 
     class Meta:
         abstract = True

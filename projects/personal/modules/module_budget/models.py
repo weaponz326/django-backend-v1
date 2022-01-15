@@ -14,7 +14,8 @@ class Budget(CustomBaseModel):
 
 class Income(CustomBaseModel):
     budget = models.ForeignKey(Budget, to_field='id', on_delete=models.CASCADE)
-    item = models.CharField(max_length=100, null=True)
+    item_number = models.CharField(max_length=11, null=True)
+    item_description = models.CharField(max_length=100, null=True)
     amount = models.DecimalField(max_digits=11, decimal_places=2, null=True)
 
     def __str__(self):
@@ -22,7 +23,8 @@ class Income(CustomBaseModel):
 
 class Expenditure(CustomBaseModel):
     budget = models.ForeignKey(Budget, to_field='id', on_delete=models.CASCADE)
-    item = models.CharField(max_length=100, null=True)
+    item_number = models.CharField(max_length=11, null=True)
+    item_description = models.CharField(max_length=100, null=True)
     amount = models.DecimalField(max_digits=11, decimal_places=2, null=True)
 
     def __str__(self):

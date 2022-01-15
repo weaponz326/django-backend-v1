@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Note, NoteFile
+from .models import Note
 
 class NoteSerializer(serializers.ModelSerializer):
 
@@ -13,17 +13,6 @@ class NoteSerializer(serializers.ModelSerializer):
             'user',
             'subject',
             'body',
-        ]
-
-class NoteFileSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = NoteFile
-        fields = [
-            'id',
-            'updated_at',
-            'note',
-            'file',
         ]
 
 class NoteAnnotateSerializer(serializers.ModelSerializer):

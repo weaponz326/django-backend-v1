@@ -2,22 +2,30 @@ from django.shortcuts import render
 from django.db.models import Count
 from django.db.models.functions import TruncDate
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.filters import OrderingFilter
 
 from .models import Account, Transaction
 from .serializers import AccountSerializer, TransactionDepthSerializer, TransactionSerializer, TransactionAnnotateSerializer
+from users.paginations import TablePagination
 
 
 # Create your views here.
 
-class AccountView(APIView):
+class AccountView(APIView, TablePagination):
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['account_name', 'account_number', 'bank_name']
+    ordering = ['-pkid']
+
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
         account = Account.objects.filter(user=user)
-        serializer = AccountSerializer(account, many=True)
-        return Response(serializer.data)
+        results = self.paginate_queryset(account, request, view=self)
+        serializer = AccountSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request, format=None):
         serializer = AccountSerializer(data=request.data)
@@ -82,12 +90,17 @@ class TransactionDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # all transactions
-class AllTransactionsView(APIView):
+class AllTransactionsView(APIView, TablePagination):
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['transaction_date', 'account__account_name', 'account__bank_name', 'description', 'transaction_type', 'amount']
+    ordering = ['-pkid']
+
     def get(self, request, format=None):
         user = self.request.query_params.get('user', None)
         account = Transaction.objects.filter(account__user=user)
-        serializer = TransactionDepthSerializer(account, many=True)
-        return Response(serializer.data)
+        results = self.paginate_queryset(account, request, view=self)
+        serializer = TransactionDepthSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
 
 # --------------------------------------------------------------------------------------------------------
 # dashboard
