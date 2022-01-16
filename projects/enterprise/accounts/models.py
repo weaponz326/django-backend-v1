@@ -16,7 +16,6 @@ class CustomBaseModel(models.Model):
     deleted_at = models.DateTimeField(blank=True, null=True)
 
     objects = CustomBaseManager()
-    all_objects = CustomBaseManager(alive_only=False)
 
     class Meta:
         abstract = True
