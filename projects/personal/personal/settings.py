@@ -31,7 +31,7 @@ DEBUG = False
 if DEBUG == True:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 else:
-    ALLOWED_HOSTS = ['.netrink.com']
+    ALLOWED_HOSTS = ['.netrink.com', '167.71.40.121']
 
 ALLOWED_HOSTS = []
 
