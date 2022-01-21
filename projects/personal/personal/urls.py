@@ -15,20 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('rest-auth/', include('rest_framework.urls')),
+    path('api/rest-auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
 
-    path('users/', include('users.urls')),
-    path('module-calendar/', include('modules.module_calendar.urls')),
-    path('module-notes/', include('modules.module_notes.urls')),
-    path('module-accounts/', include('modules.module_accounts.urls')),
-    path('module-budget/', include('modules.module_budget.urls')),
-    path('module-tasks/', include('modules.module_tasks.urls')),
-    path('module-portal/', include('modules.module_portal.urls')),
-    path('module-settings/', include('modules.module_settings.urls')),
+    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+
+    path('api/users/', include('users.urls')),
+    path('api/module-calendar/', include('modules.module_calendar.urls')),
+    path('api/module-notes/', include('modules.module_notes.urls')),
+    path('api/module-accounts/', include('modules.module_accounts.urls')),
+    path('api/module-budget/', include('modules.module_budget.urls')),
+    path('api/module-tasks/', include('modules.module_tasks.urls')),
+    path('api/module-portal/', include('modules.module_portal.urls')),
+    path('api/module-settings/', include('modules.module_settings.urls')),
 ]

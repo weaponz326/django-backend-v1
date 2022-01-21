@@ -8,6 +8,9 @@ from .managers import CustomBaseManager
 
 # Create your models here.
 
+def users_upload_path(instance, filename):
+    return 'users/' + instance.user.id
+
 class CustomBaseModel(models.Model):
     pkid = models.BigAutoField(primary_key=True, editable=False)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -32,7 +35,7 @@ class CustomBaseModel(models.Model):
 class User(AbstractUser, CustomBaseModel):
     location = models.CharField(max_length=255)
     about = models.TextField()
-    photo = models.FileField(null=True, blank=True, upload_to='user_profile')
+    photo = models.FileField(null=True, blank=True, upload_to=users_upload_path)
 
     REQUIRED_FIELDS = ['first_name', 'last_name', 'location', 'about']
 
