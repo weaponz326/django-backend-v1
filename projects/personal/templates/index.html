@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
     <html lang="en"><head>
         <meta charset="utf-8">
@@ -10,9 +12,9 @@
     <body>
         <app-root></app-root>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwtiQ6lgXFSginA_YEphxhMkmzWI28Zfo&amp;libraries=places&amp;language=en"></script>
-        <script src="/static/dist/runtime.js" defer></script>
-        <script src="/static/dist/polyfills.js" defer></script>
-        <script src="/static/dist/scripts.js" defer></script>
-        <script src="/static/dist/main.js" defer></script>
+        <script src="{% static '/dist/runtime.js' %}" defer></script>
+        <script src="{% static '/dist/polyfills.js' %}" defer></script>
+        <script src="{% static '/dist/scripts.js' %}" defer></script>
+        <script src="{% static '/dist/main.js' %}" defer></script>
     </body>
 </html>
