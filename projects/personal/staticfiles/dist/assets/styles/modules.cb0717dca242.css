@@ -1,0 +1,139 @@
+.nr-standard-font{
+	font-size: 14px;
+}
+
+#content-wrapper{
+  margin-bottom: 40px;
+}
+
+.module-heading a{
+	color: #7f7f7f;
+}
+
+.module-heading a:hover{
+	text-decoration: none;
+	color: #2e2e2e;
+}
+
+.home-div .home-icons{
+	height: 90px;
+	width: 90px;
+	border: solid;
+	border-width: 5px;
+	border-radius: 5px;
+}
+
+.home-div figure{
+	color: #737373;
+}
+
+.home-div a:hover figure{
+	color: #303030;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.home-div a:hover{
+	text-decoration: none;
+}
+
+hr {
+  border-top: 0 !important;
+}
+
+.top-divider{
+	margin-bottom: 4px;
+}
+
+.bottom-divider{
+  margin-top: 4px;
+}
+
+.list-pointer{
+	cursor: pointer;
+}
+
+.list-overflow{
+  /* TODO: */
+}
+
+/* forms */
+
+.form-control:focus{
+  box-shadow: none;
+  color: #6e707e;
+}
+
+.page-form{
+  font-size: 14px;
+}
+
+.page-form .page-form-btn{
+	width: 80px;
+}
+
+/* tables */
+
+.page-add-btn{
+  font-size: 14px;
+  width: 150px;
+}
+
+table.page-table{
+  font-size: 14px;
+}
+
+.table-pointer td{
+  cursor: pointer;
+}
+
+table.page-table .page-link{
+  padding: 2px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  color: #858796;
+}
+
+/* modals */
+
+.form-modal{
+  font-size: 14px;
+}
+
+.form-modal .modal-form-btn{
+  width: 60px;
+}
+
+/* portal modules */
+
+.rinkout-icon{
+	color: blue;
+}
+
+.rinkin-icon{
+	color: green;
+}
+
+/* settings module */
+
+.active-panel .subscription-panel{
+  background-color: navy;
+  color: white;
+}
+
+.billing-page-control-button{
+	width: 120px;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+.settings-tabs .nav-link{
+  width: 160px;
+  color: #6e707e;
+}
+
+.settings-tabs .nav-link.active{
+  color: #fff;
+  background-color: #858796;
+}
