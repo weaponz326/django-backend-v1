@@ -104,23 +104,23 @@ WSGI_APPLICATION = 'personal.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # if DEBUG:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-# else:
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'personal_db',
-#         'USER': 'personal_admin',
-#         'PASSWORD': 'admin1r',
-#         'HOST': 'localhost',
-#         'PORT': '',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+# else:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'personal_db',
+        'USER': 'personal_admin',
+        'PASSWORD': 'admin1r',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 
 # Password validation
