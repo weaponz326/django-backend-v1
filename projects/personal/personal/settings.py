@@ -29,9 +29,9 @@ SECRET_KEY = 'django-insecure--$!lu(#vp07b)e&4+fx!n@l!a2e*)v$ha0228cr2c(gbq-ysb5
 DEBUG = True
 
 # if DEBUG:
-#     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # else:
-ALLOWED_HOSTS = ['.netrink.com', '167.71.40.121']
+# ALLOWED_HOSTS = ['.netrink.com', '167.71.40.121']
 
 
 # Application definition
@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'users',
     # 'modules.module_portal',
     # 'modules.module_settings',
-    # 'modules.module_calendar',
+    'modules.module_calendar',
     # 'modules.module_budget',
     # 'modules.module_notes',
     # 'modules.module_accounts',
@@ -104,23 +104,23 @@ WSGI_APPLICATION = 'personal.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # if DEBUG:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         }
-#     }
-# else:
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'personal_db',
-        'USER': 'personal_admin',
-        'PASSWORD': 'admin1r',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# else:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'personal_db',
+#         'USER': 'personal_admin',
+#         'PASSWORD': 'admin1r',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 
 # Password validation
