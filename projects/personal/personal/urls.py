@@ -28,10 +28,10 @@ urlpatterns = [
 
     path('api/users/', include('users.urls')),
     path('api/module-calendar/', include('modules.module_calendar.urls')),
-    # path('api/module-notes/', include('modules.module_notes.urls')),
-    # path('api/module-accounts/', include('modules.module_accounts.urls')),
-    # path('api/module-budget/', include('modules.module_budget.urls')),
-    # path('api/module-tasks/', include('modules.module_tasks.urls')),
+    path('api/module-notes/', include('modules.module_notes.urls')),
+    path('api/module-accounts/', include('modules.module_accounts.urls')),
+    path('api/module-budget/', include('modules.module_budget.urls')),
+    path('api/module-tasks/', include('modules.module_tasks.urls')),
     # path('api/module-portal/', include('modules.module_portal.urls')),
     # path('api/module-settings/', include('modules.module_settings.urls')),
 ]

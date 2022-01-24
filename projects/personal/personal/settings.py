@@ -61,9 +61,9 @@ INSTALLED_APPS = [
     # 'modules.module_settings',
     'modules.module_calendar',
     'modules.module_budget',
-    # 'modules.module_notes',
-    # 'modules.module_accounts',
-    # 'modules.module_tasks',
+    'modules.module_notes',
+    'modules.module_accounts',
+    'modules.module_tasks',
 ]
 
 MIDDLEWARE = [
