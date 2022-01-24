@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure--$!lu(#vp07b)e&4+fx!n@l!a2e*)v$ha0228cr2c(gbq-ysb5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -58,13 +58,13 @@ INSTALLED_APPS = [
     'rest_auth.registration',
 
     'users',
-    'modules.module_portal',
-    'modules.module_settings',
-    'modules.module_calendar',
-    'modules.module_budget',
-    'modules.module_notes',
-    'modules.module_accounts',
-    'modules.module_tasks',
+    # 'modules.module_portal',
+    # 'modules.module_settings',
+    # 'modules.module_calendar',
+    # 'modules.module_budget',
+    # 'modules.module_notes',
+    # 'modules.module_accounts',
+    # 'modules.module_tasks',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +96,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'personal.wsgi.application'
 
