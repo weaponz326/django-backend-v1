@@ -32,6 +32,6 @@ urlpatterns = [
     path('api/module-accounts/', include('modules.module_accounts.urls')),
     path('api/module-budget/', include('modules.module_budget.urls')),
     path('api/module-tasks/', include('modules.module_tasks.urls')),
-    # path('api/module-portal/', include('modules.module_portal.urls')),
-    # path('api/module-settings/', include('modules.module_settings.urls')),
+    path('api/module-portal/', include('modules.module_portal.urls')),
+    path('api/module-settings/', include('modules.module_settings.urls')),
 ]
